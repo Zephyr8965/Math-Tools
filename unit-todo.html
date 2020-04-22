@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<header>
+  <style>
+    table {
+      display: none;
+    }
+    table.active {
+      display: table;
+    }
+    input {
+      width: 80%;
+      overflow: hidden;
+    }
+    td {
+      padding: 0.3%;
+      padding-left:1%;
+    }
+  </style>
+</header>
+
+<body>  
+  <p>  <p id="tabs"></p> <p id="tablecontent"></p> </p>
+  
+  <script>
+    var skills = ["Tangents", "Arcs", "Chords"];
+
+    var play = [];
+    var practice = [];
+    var prove = [];
+    play[0] = ["Lesson Plan", "Nearpod", "Notebook"];
+    practice[0] = ["Big Ideas", "Aleks"];
+    prove[0] = ["Quiz", "Report", "Kahoot"];
+
+    play[1] = play[0];
+    play[2] = play[0];
+    practice[1] = practice[0];
+    practice[2] = practice[0];
+    prove[1] = prove[0];
+    prove[2] = prove[0];    
+    
+    var table = [];
+    gen_table();
+    gen_tabs();
+
+    function show(_skill){
+      for(var i in skills) document.getElementById(skills[i] + "-tab").classList.remove("active");
+      document.getElementById(_skill).classList.add("active");
+    }
+
+    function gen_table(){
+      var n = skills.length;
+      var index = 0;
+      for(var i=0;i<n;i++)
+      {
+        var tasks=play[i].concat(practice[i]).concat(prove[i]);
+        table[i] = "";
+        table[i] += "<table id=" + skills[i] + "-tab ";
+        if(i==0) table[i] += "class=active ";
+        table[i] += "border=1 style='width:100%; max-width:540px;  border-collapse:collapse;'>";
+        table[i] += "<tbody>";
+        table[i] += "<tr><th colspan=3 width=100% style=font-size:20px><center>" + skills[i] + "</center></th></tr>";
+
+        table[i] += "<tr><th colspan=3>Play (Max 10 points)</th></tr>";
+        table[i] += "<tr> <td width=20%>Done</td>  <td width=20%>Goal</td> <td width=60%>Task</td>  </tr>";        
+        for(var a=0;a<play[i].length;a++){
+          table[i] +=
+            "<tr><td><input width=100% type=text id=input" + index + "></input></td><td>\
+            <input size=4 type=text id=input" + (index+1) + "></input>\
+            </td><td><label for=input" + index + ">" + tasks[a] + "</label></td></tr>";
+            index += 2;
+        }
+        
+        table[i] +="<tr><th colspan=3>Practice (Max 20 points)</th></tr>";
+        table[i] += "<tr> <td width=20%>Done</td>  <td width=20%>Goal</td> <td width=60%>Task</td>  </tr>";        
+        for(var b=a;b<a+practice[i].length;b++){
+          table[i] += 
+          "<tr><td><input size=4 type=text id=input" + index + "></input></td><td>\
+            <input size=4 type=text id=input" + (index+1) + "></input>\
+            </td><td><label for=input" + index + ">" + tasks[b] + "</label></td></tr>";
+            index += 2;
+        }
+
+        table[i] += "<tr><th colspan=3>Prove (Max 20 points)</th></tr>";
+        table[i] += "<tr> <td width=20%>Done</td>  <td width=20%>Goal</td> <td width=60%>Task</td>  </tr>";        
+        for(var c=b;c<b+prove[i].length;c++){
+          table[i] += 
+          "<tr><td><input size=4 type=text id=input" + index + "></input></td><td>\
+            <input size=4 type=text id=input" + (index+1) + "></input>\
+            </td><td><label for=input" + index + ">" + tasks[c] + "</label></td></tr>";
+            index += 2;
+        }
+
+        table[i] += "</tbody></table>";
+
+      }
+      for(var i=0;i<n;i++) document.getElementById("tablecontent").innerHTML+=table[i];
+    }
+
+    function gen_tabs(){
+      var tabs = "";
+      var tabcontent = [];
+      var n = skills.length;
+
+      for(var i=0;i<n;i++){
+        tabs += "<button onclick=show(\"" + skills[i] + "-tab\")>" + skills[i] + "</button>";
+      }
+      tabs += "<button onclick=save() style='margin-left:50px;'>Save</button>";
+      tabs += "<button onclick=load()>Load</button>";
+      tabs += "<button onclick=manual_save() style='margin-left:50px;'>Manual Save</button>";
+      tabs += "<button onclick=manual_load()>Manual Load</button>";
+      document.getElementById("tabs").innerHTML=tabs;
+    }
+    
+    function save(){
+      var save=[];
+      var n = 0;
+      for (var i=0;i<skills.length;i++) n += (play[i].length + practice[i].length + prove[i].length)*2;
+
+
+      for(var i=0;i<n;i++){
+        var name = "input" + i;
+        var value = document.getElementById(name).value;
+
+        document.cookie = name + "=" + value + ";";
+      }
+      var dec_cookie = decodeURIComponent(document.cookie);
+      console.log(dec_cookie);
+    }
+
+    function load(){
+
+    }
+
+    function manual_save(){
+
+    }
+
+    function manual_load(){
+
+    }
+    </script>
+  </body>
+  </html>
