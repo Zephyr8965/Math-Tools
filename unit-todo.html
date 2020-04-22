@@ -98,7 +98,7 @@
     }
 
     function gen_tabs(){
-      var tabs = "Version 0.32</br>";
+      var tabs = "Version 0.33</br>";
       var tabcontent = [];
       var n = skills.length;
 
@@ -121,7 +121,8 @@
       for(var i=0;i<n;i++){
         var name = "input" + i;
         var value = document.getElementById(name).value;
-        if (value.length > 0) document.cookie = name + "=" + value + ";";
+        if (int(value) > 0) document.cookie = name + "=" + value + ";";
+        else document.cookie = name + "=0;";
       }
       var dec_cookie = decodeURIComponent(document.cookie);
       console.log(dec_cookie);
