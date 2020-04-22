@@ -121,7 +121,7 @@
       for(var i=0;i<n;i++){
         var name = "input" + i;
         var value = document.getElementById(name).value;
-        if (string(value).length > 0) document.cookie = name + "=" + value + ";";
+        if (value.length > 0) document.cookie = name + "=" + value + ";";
       }
       var dec_cookie = decodeURIComponent(document.cookie);
       console.log(dec_cookie);
